@@ -1,21 +1,20 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm'
-import { Assignment } from '../assignments/assignments.entity'
-
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Shifts } from '../shifts/shifts.entity'; // או בהתאם למיקום בפועל
 
 @Entity()
 export class User {
-    @PrimaryGeneratedColumn()
-    id: number
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    name: string
+  @Column()
+  name: string;
 
-    @Column()
-    password: string
-    
-    @Column()
-    role: "soleger || comander"
+  @Column()
+  password: string;
 
-    @OneToOne(() => Assignment, (asignments) => asignments.user)
-    asignments: Assignment
+  @Column()
+  role: string;
+
+  @OneToMany(() => Shifts, shift => shift.user)
+  shifts: Shifts[];
 }

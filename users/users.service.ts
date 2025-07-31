@@ -21,7 +21,8 @@ export class UsersService {
     }
 
     async getUserById(name: string, password: string) {
-        return this.userRepository.findOneBy({ name, password })
+        const user = await this.userRepository.findOneBy({ name, password });
+        return user || null;
     }
 
     async delete(name: string, password: string) {

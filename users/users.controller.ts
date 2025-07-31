@@ -21,12 +21,14 @@ export class UsersController {
     getAll() {
         return this.usersService.getAllUsers()
     }
-
+    
+    @Roles(['solager'])
     @Get('/getUserById/:name/:password')
     getById(@Param('name') name: string, @Param('password') password: string) {
         return this.usersService.getUserById(name, password)
     }
 
+    @Roles(['commander'])
     @Delete('/delete/:name/:password')
     DeleteByID(@Param('name') name: string, @Param('password') password: string) {
         return this.usersService.delete(name, password)

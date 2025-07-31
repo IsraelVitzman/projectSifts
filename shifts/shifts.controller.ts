@@ -10,8 +10,8 @@ export class ShiftsController {
     constructor(private shiftsService: ShiftsService) { }
     @Roles(['comander'])
     @Post('/add')
-    add(@Body('shift') shifts: any) {
-        return this.shiftsService.add(shifts)
+    add(@Body() body: any) {
+        return this.shiftsService.add(body)
     }
 
     @Get('/getAll')
