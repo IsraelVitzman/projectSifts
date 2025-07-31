@@ -7,8 +7,8 @@ import { User } from "../users/user.entity";
 export class ShiftsService {
     constructor(
         @InjectRepository(Shifts)
-        @InjectRepository(User)
         private shiftsRepository: Repository<Shifts>,
+        @InjectRepository(User)
         private userRepository: Repository<User>,
     ) { }
 
@@ -17,8 +17,8 @@ export class ShiftsService {
         const user = await this.userRepository.findOne({ where: { name, password } })
 
         if (!user) return `no found${name}${password}`
-        
-        
+
+
         const newShifts = this.shiftsRepository.create({ user: user, startTime, endTime, description })
         return await this.shiftsRepository.save(newShifts)
     }
@@ -44,8 +44,14 @@ export class ShiftsService {
     }
 
 
-    async delete(id: number) {
-        return this.shiftsRepository.delete({ id })
+    async delete(name: string, password: string) {
+        const user = await this.userRepository.findOne({ where: { name, password } })
+        if (!user) return `no found${name}${password}`
+
+        return this.shiftsRepository.delete({
+            user: { id: user.id }
+        });
+
     }
 
 
