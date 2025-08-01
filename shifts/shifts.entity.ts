@@ -1,21 +1,20 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm'
-import { Assignment } from '../assignments/assignments.entity'
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { User } from '../users/user.entity';
 
 @Entity()
 export class Shifts {
-    @PrimaryGeneratedColumn()
-    id: number
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    startTime: string
+  @Column()
+  startTime: string;
 
-    @Column()
-    endTime: string
+  @Column()
+  endTime: string;
 
-    @Column()
-    description: string
+  @Column()
+  description: string;
 
-    @OneToOne(() => Assignment, (asignments) => asignments.shifts)
-    asignments: Assignment
-
+  @ManyToOne(() => User, user => user.shifts, { onDelete: 'CASCADE' })
+  user: User;
 }

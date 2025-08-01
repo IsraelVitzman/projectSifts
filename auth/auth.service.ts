@@ -18,7 +18,7 @@ export class AuthService {
         if (!findUser) {
             return ` not found ${name}${password}`;
         }
-        const ploayd = { "name": name, "role": role };
+        const ploayd = { "name": name,  "role": role };
         const token = await this.jwtservice.signAsync(ploayd)
         return {
             token: token
@@ -26,6 +26,24 @@ export class AuthService {
 
     }
     
+
+    async register(body: any) {
+        const { name, password, role } = body;
+
+    
+        const newUser = this.user.create({ name, password, role });
+        const savedUser = await this.user.save(newUser);
+
+        
+        const payload = { name: savedUser.name, role: savedUser.role };
+        const token = await this.jwtservice.signAsync(payload);
+
+        return {
+            message: 'User registered successfully',
+            token: token
+        };
+    }
+
 
 }
 

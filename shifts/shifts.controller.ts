@@ -3,25 +3,32 @@ import { ShiftsService } from './shifts.service'
 import { Jwt } from '../auth/aute.strategy'
 import { Guard } from '../auth/aute.guard';
 import { Roles } from '../auth/aute.role'
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('/shifts')
-@UseGuards(Jwt, Guard)
+@UseGuards(AuthGuard('jwt'), Guard)
 export class ShiftsController {
     constructor(private shiftsService: ShiftsService) { }
-    @Roles(['comander'])
+    @Roles(['commander'])
     @Post('/add')
-    add(@Body('shift') shifts: any) {
-        return this.shiftsService.add(shifts)
+    add(@Body() body: any) {
+        return this.shiftsService.add(body)
     }
-
+    @Roles(['commander'])
     @Get('/getAll')
     getAll() {
-        return this.shiftsService.getAll()
+        return this.shiftsService.getAllShiftsWithUsers()
     }
 
-    @Roles(['comander'])
-    @Delete('/delete/:id')
-    deleteById(@Param('id') id: number) {
-        return this.shiftsService.delete(id)
+    @Get('/getById')
+    getById(@Param('name') name: string, @Param('password') password: string) {
+        return this.shiftsService.getShiftByUserCredentials(name, password)
     }
+
+    @Roles(['commander'])
+    @Delete('/delete/:name/:password')
+    deleteById(@Param('name') name: string, @Param('password') password: string) {
+        return this.shiftsService.deleteByCredentials(name, password);
+    }
+
 }

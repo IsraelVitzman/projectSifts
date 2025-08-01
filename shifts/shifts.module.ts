@@ -3,9 +3,10 @@ import { ShiftsController } from './shifts.controller';
 import { ShiftsService } from './shifts.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Shifts} from './shifts.entity';
+import { User } from "../users/user.entity";
 @Module({
   imports: [
-      TypeOrmModule.forFeature([Shifts])  // רק את זה
+      TypeOrmModule.forFeature([Shifts,User]) 
     ], 
   controllers: [ShiftsController],
   providers: [ShiftsService]

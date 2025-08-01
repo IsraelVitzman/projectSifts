@@ -15,13 +15,10 @@ export class UsersService {
         return this.userRepository.find()
     }
 
-    async addUser(user: any) {
-        const newUser = this.userRepository.create(user)
-        return await this.userRepository.save(newUser);
-    }
 
     async getUserById(name: string, password: string) {
-        return this.userRepository.findOneBy({ name, password })
+        const user = await this.userRepository.findOneBy({ name, password });
+        return user || null;
     }
 
     async delete(name: string, password: string) {
